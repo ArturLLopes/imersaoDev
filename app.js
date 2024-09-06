@@ -1,25 +1,47 @@
 function pesquisar(){
     let section = document.getElementById("resultados-pesquisa");
-console.log(section);
 
-let resultados = ""
+
+let campoPesquisa = document.getElementById("campo-pesquisa").value
+console.log(campoPesquisa);
+
+if (campoPesquisa ==""){
+    section.innerHTML = "<p>Nada foi encontrado</p>"
+    return
+}
+if (campoPesquisa ==" "){
+    section.innerHTML = "<p>Nada foi encontrado</p>"
+    return
+}
+campoPesquisa = campoPesquisa.toLowerCase()
+
+let resultados = "";
+let titulo = "";
+let descricao = "";
+let tags = "";
 
 // para cada dado dentro da lista de dados
 for(let dado of dados) {
-    resultados += `
-    <div class="item-resultado">
-        <h2>
-             <a href="#" target="_blank">${dado.titulo}</a>
-        </h2>
-          <p class="descricao-meta">${dado.descricao}</p>
-            <a href=${dado.link} target="_blank">Mais informações</a>
-    </div>
-`
+    tags = dado.tags.toLowerCase()
+    titulo = dado.titulo.toLowerCase()
+    descricao = dado.descricao.toLowerCase()
+    
+    //se titulo includes campoPesquisa
+    if(titulo.includes(campoPesquisa) || descricao.includes(campoPesquisa) || tags.includes(campoPesquisa) ) {
+        resultados += `
+        <div class="item-resultado">
+            <h2>
+                 <a href="#" target="_blank">${dado.titulo}</a>
+            </h2>
+              <p class="descricao-meta">${dado.descricao}</p>
+                <a href=${dado.link} target="_blank">Mais informações</a>
+        </div>
+    `;
+    }     
+}  
+if (!resultados ){
+    resultados = "<p> Não temos esses dados </p>"
 }
-section.innerHTML = resultados
-   
+
+section.innerHTML = resultados;
 }
-// console.log(dados);
-
-
-
